@@ -19,10 +19,9 @@ class ListController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index () {
-    const list = await List.all();
-    
-    return list;
+  async index ( {response} ) {
+    const list = await List.all(); 
+    return response.json(list);
   }
 
   /**
@@ -38,7 +37,6 @@ class ListController {
   async store ({ request, auth }) {
     const data = request.only(['id_list', 'title', 'description', 'shoppings']);
     const list = await List.create({ user_id: auth.user.id, ...data });
-    
     return list;
   }
 
@@ -54,7 +52,7 @@ class ListController {
   async show ({ params }) {
     const list = await List.findOrFail(params.id);
     
-    return params;
+    return list;
   }
 
   /**
