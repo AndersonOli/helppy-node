@@ -3,7 +3,7 @@ const User = use('App/Models/User');
 
 class AuthController {
   async register( { request } ) {
-    const data = request.only(['username', 'email', 'password']);
+    const data = request.only(['nome_completo', 'email', 'senha', 'telefone', 'cep', 'endereco', 'numero', 'referencia', 'tipo_conta']);
     
     const user = await User.create(data);
     
