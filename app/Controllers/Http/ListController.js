@@ -5,7 +5,7 @@
 /** @typedef {import('@adonisjs/framework/src/View')} View */
 
 const List = use('App/Models/List');
-
+const Database = use('Database') 
 /**
  * Resourceful controller for interacting with lists
  */
@@ -50,9 +50,8 @@ class ListController {
    * @param {View} ctx.view
    */
   async show ({ params }) {
-    const list = await List.findOrFail(params.id);
-    
-    return list;
+    const list = await List.query().where('user_id', '=', params.id).fetch();
+    return list
   }
 
   /**
