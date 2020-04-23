@@ -68,14 +68,15 @@ class ListController {
   async update ({ request, params , auth }) {
     // Faz o update no usuário logado passando na url o id list
     const {title, description, shoppings} = request.all();
-    const list = await List.query()
+    await List.query()
       .where('user_id', '=' , auth.user.id)
       .where('id_list', '=' , params.id)
       .update({
         title: title,
         description: description,
         shoppings: shoppings
-    })
+    });
+    return list;
   }
 
   /**
@@ -86,13 +87,9 @@ class ListController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async destroy ({ params, auth, response}) {
-    const list =  await List.findOrFail(params.id);
-    if (list.user_id !==  auth.user.id) {
-      return response.status(401)
-    }
-    await list.delete();
-    
+  async destroy ({ params, auth, }) {
+    const list = await List.query().where('user_id', '=' ,auth.user.id).where('id_list', '=', params.id).delete();
+    return list;
   }
 }
 
