@@ -50,6 +50,7 @@ class ListController {
    * @param {View} ctx.view
    */
   async show ({ params }) {
+    //Faz a busca de todos as listas de comprars de usuário passando na url qual usuário é
     const list = await List.query().where('user_id', '=', params.id).fetch();
     return list
   }
@@ -64,22 +65,17 @@ class ListController {
    * @param {View} ctx.view
    */
 
-  async update ({ params, request, response }) {
-    const id_element = request.input('id_element');
-    const title = request.input('title');
-    const description = request.input('description');
-    const shoppings = request.input('shoppings');
-    
-    let list = await List.find(params.id);
-    
-    list.id_element = id_element;
-    list.title = title;
-    list.description = description;
-    list.shoppings = shoppings;
-    
-    await list.save();
-    
-    return response.json(contact);
+  async update ({ request, params , auth }) {
+    // Faz o update no usuário logado passando na url o id list
+    const {title, description, shoppings} = request.all();
+    const list = await List.query()
+      .where('user_id', '=' , auth.user.id)
+      .where('id_list', '=' , params.id)
+      .update({
+        title: title,
+        description: description,
+        shoppings: shoppings
+    })
   }
 
   /**
