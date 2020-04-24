@@ -1,5 +1,6 @@
 'use strict'
 const User = use('App/Models/User');
+const Database = use('Database')
 
 class AuthController {
   async register( { request } ) {
@@ -19,11 +20,11 @@ class AuthController {
     return user;
   }
   
-  async authenticate( { request, auth } ) {
+  async authenticate( { request, auth } ) { 
     const { email, password } = request.all();
+    const user_id = await Database.select('id').from('users').whereIn("email", [email]);
     const token = await auth.attempt(email, password);
-    return token;
+    return {token, user_id} 
   }
 }
-
 module.exports = AuthController
