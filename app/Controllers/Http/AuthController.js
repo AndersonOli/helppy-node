@@ -22,9 +22,11 @@ class AuthController {
   
   async authenticate( { request, auth } ) { 
     const { email, password } = request.all();
+    
     const user_id = await Database.select('id').from('users').whereIn("email", [email]);
     const token = await auth.attempt(email, password);
-    return {token, user_id} 
+    
+    return token, user_id 
   }
 }
 module.exports = AuthController
