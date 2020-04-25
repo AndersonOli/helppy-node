@@ -23,10 +23,13 @@ class AuthController {
   async authenticate( { request, auth } ) { 
     const { email, password } = request.all();
     
-    const user_id = await Database.select('id').from('users').whereIn("email", [email]);
-    const token = await auth.attempt(email, password);
+    const id = await Database.select('id').from('users').whereIn("email", [email]);
+    const token_user = await auth.attempt(email, password);
     
-    return token, user_id 
+    const user_id = id[0].id;
+    const token = token_user.token;
+    
+    return {token, user_id}
   }
 }
 module.exports = AuthController
