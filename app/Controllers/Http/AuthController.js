@@ -24,12 +24,15 @@ class AuthController {
     const { email, password } = request.all();
     
     const id = await Database.select('id').from('users').whereIn("email", [email]);
+    const type = await Database.select('type_account').from('users').whereIn('email', [email])
+    
     const token_user = await auth.attempt(email, password);
     
     const user_id = id[0].id;
     const token = token_user.token;
+    const type_account = type[0].type_account;
     
-    return {token, user_id}
+    return {token, user_id, type_account}
   }
 }
 module.exports = AuthController
