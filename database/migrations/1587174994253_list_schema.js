@@ -15,7 +15,6 @@ class ListSchema extends Schema {
         .inTable('users')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
-        table.string('id_list').notNullable()
         table.string('title', 100).notNullable()
         table.string('description', 300).notNullable()
         table.string('shoppings').notNullable()

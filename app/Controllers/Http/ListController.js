@@ -35,7 +35,7 @@ class ListController {
    */
 
   async store ({ request, auth }) {
-    const data = request.only(['id_list', 'title', 'description', 'shoppings']);
+    const data = request.only(['title', 'description', 'shoppings']);
     const list = await List.create({ user_id: auth.user.id, ...data });
     return list;
   }
@@ -77,7 +77,7 @@ class ListController {
     const {title, description, shoppings} = request.all();
     await List.query()
       .where('user_id', '=' , auth.user.id)
-      .where('id_list', '=' , params.id)
+      .where('id', '=' , params.id)
       .update({
         title: title,
         description: description,
@@ -95,7 +95,7 @@ class ListController {
    * @param {Response} ctx.response
    */
   async destroy ({ params, auth, }) {
-    const list = await List.query().where('user_id', '=' ,auth.user.id).where('id_list', '=', params.id).delete();
+    const list = await List.query().where('user_id', '=' ,auth.user.id).where('id', '=', params.id).delete();
     return list;
   }
 }
