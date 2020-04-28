@@ -51,8 +51,15 @@ class ListController {
    */
   async show ({ params }) {
     //Faz a busca de todos as listas de comprars de usuário passando na url qual usuário é
+    const full_name = await Database.select('full_name').from('users').whereIn("id", [params.id]);
     const list = await List.query().where('user_id', '=', params.id).fetch();
-    return list
+    
+    const name = full_name[0].full_name
+  
+    return {
+      name,
+      list
+    }
   }
 
   /**
