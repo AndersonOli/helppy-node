@@ -18,7 +18,7 @@ const Route = use('Route')
 
 Route.post('/register', 'AuthController.register')
 Route.post('/authenticate', 'AuthController.authenticate')
-Route.post('/remember', 'AuthController.revokeUserToken').middleware(['auth'])
+Route.post('/distance', 'GeolocalizationController.getDistance').middleware(['auth'])
 
 Route.group( () => {
   Route.resource('list', 'ListController').apiOnly();

@@ -35,9 +35,14 @@ class ListController {
    */
 
   async store ({ request, auth }) {
-    const data = request.only(['title', 'description', 'shoppings']);
-    const list = await List.create({ user_id: auth.user.id, ...data });
-    return list;
+    const data = request.only(['title', 'description', 'shoppings', 'accept_by', 'acept_by_id']);
+    const list = await List.create({ 
+      user_id: auth.user.id,
+      full_name: auth.user.full_name,
+      address: auth.user.address,  
+      ...data
+      });
+    return list ;
   }
 
   /**
@@ -51,15 +56,8 @@ class ListController {
    */
   async show ({ params }) {
     //Faz a busca de todos as listas de comprars de usuário passando na url qual usuário é
-    const full_name = await Database.select('full_name').from('users').whereIn("id", [params.id]);
     const list = await List.query().where('user_id', '=', params.id).fetch();
-    
-    const name = full_name[0].full_name
-  
-    return {
-      name,
-      list
-    }
+    return list
   }
 
   /**

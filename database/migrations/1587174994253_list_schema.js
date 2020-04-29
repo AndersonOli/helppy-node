@@ -15,10 +15,14 @@ class ListSchema extends Schema {
         .inTable('users')
         .onUpdate('CASCADE')
         .onDelete('CASCADE')
-        table.string('title', 100).notNullable()
-        table.string('description', 300).notNullable()
-        table.string('shoppings').notNullable()
+      table.string('full_name', 80).notNullable()
+      table.string('address', 60).notNullable()
+      table.string('title', 100).notNullable()
+      table.string('description', 300).notNullable()
+      table.string('shoppings').notNullable()
       table.timestamps()
+      table.string('accept_by', 80)
+      table.string('acept_by_id')
     })
   }
 

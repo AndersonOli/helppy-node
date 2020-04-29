@@ -25,6 +25,7 @@
     "@adonisjs/ignitor": "^2.0.8",
     "@adonisjs/lucid": "^6.1.3",
     "basic-auth": "^2.0.1",
+    "geolib": "^3.2.1",
     "pg": "^8.0.2",
     "url-parse": "^1.4.7"
   },
