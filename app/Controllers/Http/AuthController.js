@@ -11,6 +11,8 @@ class AuthController {
       'telephone', 
       'cep', 
       'address', 
+      'latitude',
+      'longitude',
       'house_number', 
       'reference', 
       'type_account']);

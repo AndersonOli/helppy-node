@@ -17,12 +17,14 @@ class ListSchema extends Schema {
         .onDelete('CASCADE')
       table.string('full_name', 80).notNullable()
       table.string('address', 60).notNullable()
+      table.string('telephone', 20).notNullable()
       table.string('title', 100).notNullable()
       table.string('description', 300).notNullable()
       table.string('shoppings').notNullable()
       table.timestamps()
       table.string('accept_by', 80)
-      table.string('acept_by_id')
+      table.string('accept_by_id')
+      table.string('status').notNullable()
     })
   }
 

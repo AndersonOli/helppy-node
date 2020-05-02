@@ -35,11 +35,12 @@ class ListController {
    */
 
   async store ({ request, auth }) {
-    const data = request.only(['title', 'description', 'shoppings', 'accept_by', 'acept_by_id']);
+    const data = request.only(['title', 'description', 'shoppings','status']);
     const list = await List.create({ 
       user_id: auth.user.id,
       full_name: auth.user.full_name,
-      address: auth.user.address,  
+      address: auth.user.address,
+      telephone: auth.user.telephone,
       ...data
       });
     return list ;
@@ -72,14 +73,14 @@ class ListController {
 
   async update ({ request, params , auth }) {
     // Faz o update no usuário logado passando na url o id list
-    const {title, description, shoppings} = request.all();
+    const { title, description, shoppings } = request.all();
     await List.query()
       .where('user_id', '=' , auth.user.id)
       .where('id', '=' , params.id)
       .update({
         title: title,
         description: description,
-        shoppings: shoppings
+        shoppings: shoppings,
     });
     return list;
   }
