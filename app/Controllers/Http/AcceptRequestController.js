@@ -1,14 +1,23 @@
 'use strict'
 
-const List = use("App/Models/List");
-const { getDistance } = require('geolib');
-
+const List = use('App/Models/List');
+const { isPointWithinRadius } = require('geolib');
+const Database = use('Database');
 
 class AcceptRequestController {
   async index ( { request } ) {
-    const {lat1, long1, lat2, long2} = request.all();
-    
-    return getDistance({ latitude: lat1, longitude: long1 }, { latitude: lat2, longitude: long2 })
+    const {lat, long} = request.all();
+    const coordinate = await Database.select('*').where('type_account','=','0').from('users')
+    var array = []
+    for (var i in coordinate) {
+      const latitude = coordinate[i]['latitude'];
+      const longitude = coordinate[i]['longitude'];
+      if (isPointWithinRadius({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}, 200)){ 
+        const list = await Database.select('*').where('user_id', '=', coordinate[i]['id']).from('lists')
+        array.push(list)
+      }
+    }  
+    return array
   }
 
   async update ({ request, params }) {

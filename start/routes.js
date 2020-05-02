@@ -18,7 +18,7 @@ const Route = use('Route')
 
 Route.post('/register', 'AuthController.register')
 Route.post('/authenticate', 'AuthController.authenticate')
-Route.post('/accept', 'AcceptRequestController.index')
+Route.get('/accept', 'AcceptRequestController.index').middleware(['auth'])
 Route.post('/accept/:user_id/:id', 'AcceptRequestController.update')
 
 Route.group( () => {
