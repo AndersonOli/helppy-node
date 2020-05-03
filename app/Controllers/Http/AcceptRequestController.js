@@ -1,7 +1,7 @@
 'use strict'
 
 const List = use('App/Models/List');
-const { isPointWithinRadius } = require('geolib');
+const { isPointWithinRadius, getDistance } = require('geolib');
 const Database = use('Database');
 
 class AcceptRequestController {
@@ -11,7 +11,7 @@ class AcceptRequestController {
     const coordinate = await Database.
       select('*')
       .where('type_account','=','1')
-      .from('users')
+      .from('users');
     
     var viewlist;
 
@@ -24,13 +24,34 @@ class AcceptRequestController {
           .select('*')
           .where('user_id', '=', coordinate[i]['id'])
           .whereNot('status','=','2')
-          .from('lists')
-          viewlist = list
+          .from('lists');
+          viewlist = list;
       }
     } 
-    return viewlist
+    return viewlist;
   }
+  
+  async getDistance() {
+    const {lat, long} = request.all();
+    
+    const coordinate = await Database.
+      select('*')
+      .where('type_account','=','1')
+      .from('users');
+    
+    var viewDistance;
 
+    for (var i in coordinate) {
+      const latitude = coordinate[i]['latitude'];
+      const longitude = coordinate[i]['longitude'];
+      
+      if (isPointWithinRadius({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}, 2000)){ 
+        viewDistance = getDistance({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude});
+      }
+    } 
+    return viewDistance
+  }
+  
   async update ({ request, auth }) {
     const { status } = request.all();
      await List.query()

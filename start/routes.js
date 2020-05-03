@@ -20,6 +20,7 @@ Route.post('/register', 'AuthController.register')
 Route.post('/authenticate', 'AuthController.authenticate')
 Route.post('/accept', 'AcceptRequestController.index').middleware(['auth'])
 Route.post('/update', 'AcceptRequestController.update').middleware(['auth'])
+Route.post('/distance', 'AcceptRequestController.getDistance').middleware(['auth'])
 
 Route.group( () => {
   Route.resource('list', 'ListController').apiOnly();
