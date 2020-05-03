@@ -54,7 +54,8 @@ class AcceptRequestController {
       const longitude = coordinate[i]['longitude'];
       
       if (isPointWithinRadius({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}, 2000)){ 
-        viewDistance.push(getDistance({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}));
+        
+        viewDistance.push({id: coordinate[i]['id'],distance: getDistance({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude})});
       }
     } 
     return viewDistance
