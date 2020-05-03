@@ -13,7 +13,7 @@ class AcceptRequestController {
       .where('type_account','=','1')
       .from('users');
     
-    var viewlist;
+    var array = [];
 
     for (var i in coordinate) {
       const latitude = coordinate[i]['latitude'];
@@ -25,10 +25,18 @@ class AcceptRequestController {
           .where('user_id', '=', coordinate[i]['id'])
           .whereNot('status','=','2')
           .from('lists');
-          viewlist = list;
+          array.push(list);
       }
     } 
-    return viewlist;
+    
+    var viewlist = []
+    for (var i in array) {
+      for(var j in array[i]) {
+        viewlist.push(array[i][j])
+      }
+    }
+    
+    return viewlist
   }
   
   async getDistance( { request } ) {
