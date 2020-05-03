@@ -10,7 +10,7 @@ class AcceptRequestController {
     
     const coordinate = await Database.
       select('*')
-      .where('type_account','=','0')
+      .where('type_account','=','1')
       .from('users')
     
     var array = []
@@ -19,7 +19,7 @@ class AcceptRequestController {
       const latitude = coordinate[i]['latitude'];
       const longitude = coordinate[i]['longitude'];
       
-      if (isPointWithinRadius({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}, 200)){ 
+      if (isPointWithinRadius({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}, 2000)){ 
         const list = await Database
           .select('*')
           .where('user_id', '=', coordinate[i]['id'])
