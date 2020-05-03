@@ -31,7 +31,7 @@ class AcceptRequestController {
     return viewlist;
   }
   
-  async getDistance() {
+  async getDistance( { request } ) {
     const {lat, long} = request.all();
     
     const coordinate = await Database.
@@ -39,14 +39,14 @@ class AcceptRequestController {
       .where('type_account','=','1')
       .from('users');
     
-    var viewDistance;
+    var viewDistance = [];
 
     for (var i in coordinate) {
       const latitude = coordinate[i]['latitude'];
       const longitude = coordinate[i]['longitude'];
       
       if (isPointWithinRadius({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}, 2000)){ 
-        viewDistance = getDistance({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude});
+        viewDistance.push(getDistance({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}));
       }
     } 
     return viewDistance
