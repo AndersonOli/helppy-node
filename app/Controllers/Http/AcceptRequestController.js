@@ -13,8 +13,8 @@ class AcceptRequestController {
       .where('type_account','=','1')
       .from('users')
     
-    var array = []
-    
+    var viewlist;
+
     for (var i in coordinate) {
       const latitude = coordinate[i]['latitude'];
       const longitude = coordinate[i]['longitude'];
@@ -25,10 +25,10 @@ class AcceptRequestController {
           .where('user_id', '=', coordinate[i]['id'])
           .whereNot('status','=','2')
           .from('lists')
-        array.push(list)
+          viewlist = list
       }
     } 
-    return array 
+    return viewlist
   }
 
   async update ({ request, auth }) {
