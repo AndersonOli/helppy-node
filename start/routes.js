@@ -18,8 +18,8 @@ const Route = use('Route')
 
 Route.post('/register', 'AuthController.register')
 Route.post('/authenticate', 'AuthController.authenticate')
-Route.get('/accept', 'AcceptRequestController.index').middleware(['auth'])
-Route.post('/accept/:user_id/:id', 'AcceptRequestController.update').middleware(['auth'])
+Route.post('/accept', 'AcceptRequestController.index').middleware(['auth'])
+Route.post('/update', 'AcceptRequestController.update').middleware(['auth'])
 
 Route.group( () => {
   Route.resource('list', 'ListController').apiOnly();
