@@ -61,9 +61,11 @@ class AcceptRequestController {
     return viewDistance
   }
   
-  async update ({ request, auth }) {
+  async update ({ request, auth, params }) {
     const { status } = request.all();
      await List.query()
+      .where('user_id', '=' , params.user_id)
+      .where('id', '=' , params.id)
       .update({
         accept_by: auth.user.accept_by,
         accept_by_id: auth.user.accept_by_id,
