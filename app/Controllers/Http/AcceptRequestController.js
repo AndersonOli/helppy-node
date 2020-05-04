@@ -62,15 +62,16 @@ class AcceptRequestController {
   }
   
   async update ({ request, auth, params }) {
-    const { status } = request.all();
+    const { acceptName, acceptId,status } = request.all();
      await List.query()
       .where('user_id', '=' , params.user_id)
       .where('id', '=' , params.id)
       .update({
-        accept_by: auth.user.accept_by,
-        accept_by_id: auth.user.accept_by_id,
+        accept_by: acceptName,
+        accept_by_id: acceptId,
         status: status
     });
+    return auth.id
   }
 
 }
