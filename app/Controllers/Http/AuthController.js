@@ -15,7 +15,9 @@ class AuthController {
       'longitude',
       'house_number', 
       'reference', 
-      'type_account']);
+      'type_account',
+      'status_account'
+      ]);
       
     const user = await User.create(data);
     
@@ -25,7 +27,12 @@ class AuthController {
   async authenticate( { request, auth } ) { 
     const { email, password } = request.all();
     
-    const data = await Database.select('id').select('type_account').select('full_name').from('users').whereIn("email", [email]);
+    const data = await Database.select('id')
+      .select('type_account')
+      .select('full_name')
+      .select('status_account')
+      .from('users').
+      whereIn("email", [email]);
     
     
     const token_user = await auth.attempt(email, password);
@@ -34,8 +41,9 @@ class AuthController {
     const token = token_user.token;
     const type_account = data[0].type_account;
     const full_name = data[0].full_name
+    const status_account = data[0].status_account
     
-    return {token, user_id, type_account, full_name}
+    return {token, user_id, type_account, full_name, status_account}
   }
 }
 module.exports = AuthController

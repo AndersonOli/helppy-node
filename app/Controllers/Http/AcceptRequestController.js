@@ -19,7 +19,7 @@ class AcceptRequestController {
       const latitude = coordinate[i]['latitude'];
       const longitude = coordinate[i]['longitude'];
       
-      if (isPointWithinRadius({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}, 2000)){ 
+      if (isPointWithinRadius({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}, 80000)){ 
         const list = await Database
           .select('*')
           .where('user_id', '=', coordinate[i]['id'])
@@ -29,14 +29,14 @@ class AcceptRequestController {
       }
     } 
     
-    var viewlist = []
+    var viewlist = [];
     for (var i in array) {
       for(var j in array[i]) {
-        viewlist.push(array[i][j])
+        viewlist.push(array[i][j]);
       }
     }
     
-    return viewlist
+    return viewlist;
   }
   
   async getDistance( { request } ) {
@@ -58,7 +58,7 @@ class AcceptRequestController {
         viewDistance.push({id: coordinate[i]['id'],distance: getDistance({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude})});
       }
     } 
-    return viewDistance
+    return viewDistance;
   }
   
   async update ({ request, auth, params }) {
@@ -71,7 +71,7 @@ class AcceptRequestController {
         accept_by_id: acceptId,
         status: status
     });
-    return auth.id
+    return auth.id;
   }
 
 }
