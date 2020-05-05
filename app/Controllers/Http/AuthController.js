@@ -16,9 +16,8 @@ class AuthController {
       'house_number', 
       'reference', 
       'type_account',
-      'status_account'
       ]);
-      
+      const value = 0
     const user = await User.create(data);
     
     return user;

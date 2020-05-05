@@ -18,7 +18,7 @@ class UserSchema extends Schema {
       table.string('house_number', 10).notNullable()
       table.string('reference', 254).notNullable()
       table.string('type_account',1).notNullable()
-      table.integer('status_account').notNullable()
+      table.integer('status_account').defaultTo(0)
       table.timestamps()
     })
   }
