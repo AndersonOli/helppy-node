@@ -17,6 +17,8 @@ class ListSchema extends Schema {
         .onDelete('CASCADE')
       table.string('full_name', 80).notNullable()
       table.string('address', 60).notNullable()
+      table.string('house_number', 10).notNullable()
+      table.string('reference', 254).notNullable()
       table.string('telephone', 20).notNullable()
       table.string('title', 100).notNullable()
       table.string('description', 300).notNullable()

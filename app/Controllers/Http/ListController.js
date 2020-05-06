@@ -40,6 +40,8 @@ class ListController {
       user_id: auth.user.id,
       full_name: auth.user.full_name,
       address: auth.user.address,
+      house_number: auth.user.house_number,
+      reference: auth.user.reference,
       telephone: auth.user.telephone,
       ...data
       });
