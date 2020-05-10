@@ -5,6 +5,7 @@ const { promisify } = require('util');
 const Mail = use('Mail');
 const User = use('App/Models/User');
 const Database = use('Database');
+const Env = use('Env');
 
 class ForgotPasswordController {
   async update( { request } ){
@@ -29,12 +30,14 @@ class ForgotPasswordController {
 
   async store({ request }) {
     const { email } = request.all();
-    const user = await User.findByOrFail('email', email);  
+    //const user = await User.findByOrFail('email', email);  
     const resetPasswordUrl = `http://127.0.0.1:3333/reset`;
-    await Mail.send('emails.forgotpassword', { name: user.name, resetPasswordUrl }, (mensagem) => {
+    await Mail
+        .connection('smtp')
+        .send('emails.forgotpassword', { name: "teste", resetPasswordUrl }, (mensagem) => {
         mensagem
-          .to(user.email)
-          .from('halyssonpimentell@gmail.com')
+          .to(email)
+          .from('developerscursos@gmail.com')
           .subject('Helppy - Recuperação de senha')
     });
   }
