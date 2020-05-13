@@ -19,7 +19,6 @@ const Route = use('Route')
 Route.post('/register', 'AuthController.register')
 Route.post('/authenticate', 'AuthController.authenticate')
 Route.post('/sendEmail', 'ForgotPasswordController.store')
-Route.post('/createToken', 'ForgotPasswordController.createToken')
 Route.post('/resetPassword', 'ForgotPasswordController.update')
 
 Route.post('/accept', 'AcceptRequestController.index').middleware(['auth'])
