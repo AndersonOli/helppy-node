@@ -73,10 +73,12 @@ class AcceptRequestController {
         status: status
     });
 
-    var userTokenNotification = await Database
+    var getToken = await Database
     .select('token_notification')
     .where('id', '=', params.user_id)
-    .from('users')[0]['token_notification'];
+    .from('users');
+
+    var userToken = getToken[0]['token_notification'];
 
     const fcmURL = 'https://fcm.googleapis.com/fcm/send'
     const fcmKey = 'AAAA2pGGVAY:APA91bGyyYd-_HQphI7aOcQED1ZGpTZ8J_pRzKEjSd-ZUWFUk3rGSc4FH-D5wsm-_ToxAm6IbpASFzuBgTw8otUH_w75XRIx0XEK2kh9nxDBJhZ1pIEjt9lagmamX-e7GEcrd2sMkC2s'
@@ -93,13 +95,13 @@ class AcceptRequestController {
       }
     }
 
-    function buildNotification(title, text, userTokenNotification) {
+    function buildNotification(title, text, userToken) {
       return {
         "notification": {
           "title": title,
           "text": text
         },
-        "to": userTokenNotification,
+        "to": userToken,
         "priority": "high"
       }
     }
@@ -115,11 +117,11 @@ class AcceptRequestController {
 
     switch(status){
       case 1 || "1":
-        var notification = buildNotification("Seu pedido foi aceito por " + acceptName, "Tente entrar em contato com o voluntário pelo contato, e siga as recomendações de segurança ao receber as compras.", userTokenNotification);
+        var notification = buildNotification("Seu pedido foi aceito por " + acceptName, "Tente entrar em contato com o voluntário pelo contato, e siga as recomendações de segurança ao receber as compras.", userToken);
         sendNotification(notification);
         break;
       case 2 || "2":
-        var notification = buildNotification("Seu pedido foi finalizado por " + acceptName, "Se isto é um engano, entre em contato com o suporte!", token_notification);
+        var notification = buildNotification("Seu pedido foi finalizado por " + acceptName, "Se isto é um engano, entre em contato com o suporte!", userToken);
         sendNotification(notification);
         break;  
     }
