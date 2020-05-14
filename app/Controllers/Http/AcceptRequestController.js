@@ -3,6 +3,7 @@
 const List = use('App/Models/List');
 const { isPointWithinRadius, getDistance } = require('geolib');
 const Database = use('Database');
+const https = require('https');
 
 class AcceptRequestController {
   async index ( { request } ) {
@@ -73,8 +74,33 @@ class AcceptRequestController {
     });
 
     var getTokenNotification = await Database.select('token_notification').where('id', '=', params.user_id).from('users');
+
+    var userTokenNotification = getTokenNotification[0]['token_notification'];
+
+    var options = {
+      hostname: 'https://fcm.googleapis.com/fcm/send',
+      method: 'POST',
+      headers: { 'Authorization': "key=AAAA2pGGVAY:APA91bGyyYd-_HQphI7aOcQED1ZGpTZ8J_pRzKEjSd-ZUWFUk3rGSc4FH-D5wsm-_ToxAm6IbpASFzuBgTw8otUH_w75XRIx0XEK2kh9nxDBJhZ1pIEjt9lagmamX-e7GEcrd2sMkC2s" },
+      json: {
+        "notification": {
+          "title": "Seu pedido foi aceito!", 
+          "body": "Seu pedido foi aceito por tente entrar em contato com ele.",
+        },
+        "to": userTokenNotification
+      }
+    };
+
+    const req = https.request(options, res => {
+      console.log(`statusCode: ${res.statusCode}`)
     
-    //send notification
+      res.on('data', d => {
+        process.stdout.write(d)
+      })
+    });
+    
+    req.on('error', error => {
+      console.error(error)
+    });
 
     return auth.id;
   }
