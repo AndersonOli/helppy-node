@@ -80,8 +80,11 @@ class AcceptRequestController {
     var options = {
       hostname: 'https://fcm.googleapis.com/fcm/send',
       method: 'POST',
-      headers: { 'Authorization': "key=AAAA2pGGVAY:APA91bGyyYd-_HQphI7aOcQED1ZGpTZ8J_pRzKEjSd-ZUWFUk3rGSc4FH-D5wsm-_ToxAm6IbpASFzuBgTw8otUH_w75XRIx0XEK2kh9nxDBJhZ1pIEjt9lagmamX-e7GEcrd2sMkC2s" },
-      json: {
+      json: true,
+      headers: {
+        'Authorization': "key=AAAA2pGGVAY:APA91bGyyYd-_HQphI7aOcQED1ZGpTZ8J_pRzKEjSd-ZUWFUk3rGSc4FH-D5wsm-_ToxAm6IbpASFzuBgTw8otUH_w75XRIx0XEK2kh9nxDBJhZ1pIEjt9lagmamX-e7GEcrd2sMkC2s"
+      },
+      body: {
         "notification": {
           "title": "Seu pedido foi aceito!", 
           "body": "Seu pedido foi aceito por tente entrar em contato com ele.",
