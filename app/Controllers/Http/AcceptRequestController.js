@@ -112,17 +112,16 @@ class AcceptRequestController {
         console.log(r)
       }).catch((error) => {
         console.log(error)
+        return error;
       });
     }
 
     switch(status){
       case 1 || "1":
-        var notification = buildNotification("Seu pedido foi aceito por " + acceptName, "Tente entrar em contato com o voluntário pelo contato, e siga as recomendações de segurança ao receber as compras.", userToken);
-        sendNotification(notification);
+        return sendNotification(buildNotification("Seu pedido foi aceito por " + acceptName, "Tente entrar em contato com o voluntário pelo contato, e siga as recomendações de segurança ao receber as compras.", userToken));
         break;
       case 2 || "2":
-        var notification = buildNotification("Seu pedido foi finalizado por " + acceptName, "Se isto é um engano, entre em contato com o suporte!", userToken);
-        sendNotification(notification);
+        return sendNotification(buildNotification("Seu pedido foi finalizado por " + acceptName, "Se isto é um engano, entre em contato com o suporte!", userToken));
         break;  
     }
 
