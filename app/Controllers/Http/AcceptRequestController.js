@@ -116,13 +116,10 @@ class AcceptRequestController {
       });
     }
 
-    switch(status){
-      case 1 || "1":
-        return sendNotification(buildNotification("Seu pedido foi aceito por " + acceptName, "Tente entrar em contato com o voluntário pelo contato, e siga as recomendações de segurança ao receber as compras.", userToken));
-        break;
-      case 2 || "2":
-        return sendNotification(buildNotification("Seu pedido foi finalizado por " + acceptName, "Se isto é um engano, entre em contato com o suporte!", userToken));
-        break;  
+    if(status == '1'){
+      sendNotification(buildNotification("Seu pedido foi aceito por " + acceptName, "Tente entrar em contato com o voluntário pelo contato, e siga as recomendações de segurança ao receber as compras.", userToken));
+    } else if(status == '2') {
+      sendNotification(buildNotification("Seu pedido foi finalizado por " + acceptName, "Se isto é um engano, entre em contato com o suporte!", userToken));
     }
 
     return auth.id;
