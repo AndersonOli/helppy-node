@@ -3,7 +3,7 @@
 const List = use('App/Models/List');
 const { isPointWithinRadius, getDistance } = require('geolib');
 const Database = use('Database');
-const https = require('https');
+const axios = require('axios');
 
 class AcceptRequestController {
   async index ( { request } ) {
