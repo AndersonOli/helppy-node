@@ -1,6 +1,8 @@
 'use strict'
 const User = use('App/Models/User');
-const Database = use('Database')
+const Database = use('Database');
+const axios = require('axios');
+const querystring = require('querystring');
 
 class AuthController {
   async register( { request } ) {
@@ -47,8 +49,6 @@ class AuthController {
       .from("users");
     }
 
-    
-    
     const user_id = data[0].id;
     const token = token_user.token;
     const type_account = data[0].type_account;

@@ -73,37 +73,56 @@ class AcceptRequestController {
         status: status
     });
 
-    var getTokenNotification = await Database.select('token_notification').where('id', '=', params.user_id).from('users');
+    var userTokenNotification = await Database
+    .select('token_notification')
+    .where('id', '=', params.user_id)
+    .from('users')[0]['token_notification'];
 
-    var userTokenNotification = getTokenNotification[0]['token_notification'];
-
-    var options = {
-      hostname: 'https://fcm.googleapis.com/fcm/send',
-      method: 'POST',
-      json: true,
-      headers: {
-        'Authorization': "key=AAAA2pGGVAY:APA91bGyyYd-_HQphI7aOcQED1ZGpTZ8J_pRzKEjSd-ZUWFUk3rGSc4FH-D5wsm-_ToxAm6IbpASFzuBgTw8otUH_w75XRIx0XEK2kh9nxDBJhZ1pIEjt9lagmamX-e7GEcrd2sMkC2s"
-      },
-      body: {
-        "notification": {
-          "title": "Seu pedido foi aceito!", 
-          "body": "Seu pedido foi aceito por tente entrar em contato com ele.",
+    const fcmURL = 'https://fcm.googleapis.com/fcm/send'
+    const fcmKey = 'AAAA2pGGVAY:APA91bGyyYd-_HQphI7aOcQED1ZGpTZ8J_pRzKEjSd-ZUWFUk3rGSc4FH-D5wsm-_ToxAm6IbpASFzuBgTw8otUH_w75XRIx0XEK2kh9nxDBJhZ1pIEjt9lagmamX-e7GEcrd2sMkC2s'
+    
+    function buildRequest (notification) {
+      return {
+        url: fcmURL,
+        method: 'post',
+        headers: {
+          "Content-Type":"application/json",
+          "Authorization":`key=${fcmKey}`
         },
-        "to": userTokenNotification
+        data: notification
       }
-    };
+    }
 
-    const req = https.request(options, res => {
-      console.log(`statusCode: ${res.statusCode}`)
-    
-      res.on('data', d => {
-        process.stdout.write(d)
-      })
-    });
-    
-    req.on('error', error => {
-      console.error(error)
-    });
+    function buildNotification(title, text, userTokenNotification) {
+      return {
+        "notification": {
+          "title": title,
+          "text": text
+        },
+        "to": userTokenNotification,
+        "priority": "high"
+      }
+    }
+
+    function sendNotification(notification) {
+      const request = buildRequest(notification)
+      axios(request).then((r) => {
+        console.log(r)
+      }).catch((error) => {
+        console.log(error)
+      });
+    }
+
+    switch(status){
+      case 1 || "1":
+        const notification = buildNotification("Seu pedido foi aceito por " + acceptName, "Tente entrar em contato com o voluntário pelo contato, e siga as recomendações de segurança ao receber as compras.", userTokenNotification);
+        sendNotification(notification);
+        break;
+      case 2 || "2":
+        const notification = buildNotification("Seu pedido foi finalizado por " + acceptName, "Se isto é um engano, entre em contato com o suporte!", token_notification);
+        sendNotification(notification);
+        break;  
+    }
 
     return auth.id;
   }
