@@ -122,7 +122,7 @@ class AcceptRequestController {
       sendNotification(buildNotification("Seu pedido foi finalizado por " + acceptName, "Se isto é um engano, entre em contato com o suporte!", userToken));
     }
 
-    return auth.id;
+    return [auth.id, "status: " + status, "to:"+userToken];
   }
 
 }
