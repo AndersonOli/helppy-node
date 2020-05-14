@@ -108,12 +108,7 @@ class AcceptRequestController {
 
     function sendNotification(notification) {
       const request = buildRequest(notification)
-      axios(request).then((r) => {
-        console.log(r)
-      }).catch((error) => {
-        console.log(error)
-        return error;
-      });
+      axios(request);
     }
 
     if(status == '1'){
@@ -122,7 +117,7 @@ class AcceptRequestController {
       sendNotification(buildNotification("Seu pedido foi finalizado por " + acceptName, "Se isto é um engano, entre em contato com o suporte!", userToken));
     }
 
-    return [auth.id, "status: " + status, "to:"+userToken];
+    return auth.id;
   }
 
 }
