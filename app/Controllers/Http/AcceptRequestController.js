@@ -20,7 +20,7 @@ class AcceptRequestController {
       const latitude = coordinate[i]['latitude'];
       const longitude = coordinate[i]['longitude'];
       
-      if (isPointWithinRadius({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}, 5000)){ 
+      if (isPointWithinRadius({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}, 50000)){ 
         const list = await Database
           .select('*')
           .where('user_id', '=', coordinate[i]['id'])
@@ -54,7 +54,7 @@ class AcceptRequestController {
       const latitude = coordinate[i]['latitude'];
       const longitude = coordinate[i]['longitude'];
       
-      if (isPointWithinRadius({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}, 5000)){ 
+      if (isPointWithinRadius({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}, 50000)){ 
         
         viewDistance.push({id: coordinate[i]['id'],distance: getDistance({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude})});
       }
