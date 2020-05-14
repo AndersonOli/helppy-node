@@ -115,11 +115,11 @@ class AcceptRequestController {
 
     switch(status){
       case 1 || "1":
-        const notification = buildNotification("Seu pedido foi aceito por " + acceptName, "Tente entrar em contato com o voluntário pelo contato, e siga as recomendações de segurança ao receber as compras.", userTokenNotification);
+        var notification = buildNotification("Seu pedido foi aceito por " + acceptName, "Tente entrar em contato com o voluntário pelo contato, e siga as recomendações de segurança ao receber as compras.", userTokenNotification);
         sendNotification(notification);
         break;
       case 2 || "2":
-        const notification = buildNotification("Seu pedido foi finalizado por " + acceptName, "Se isto é um engano, entre em contato com o suporte!", token_notification);
+        var notification = buildNotification("Seu pedido foi finalizado por " + acceptName, "Se isto é um engano, entre em contato com o suporte!", token_notification);
         sendNotification(notification);
         break;  
     }
