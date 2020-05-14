@@ -62,7 +62,7 @@ class AcceptRequestController {
   }
   
   async update ({ request, auth, params }) {
-    const { acceptName, acceptId,status } = request.all();
+    const { acceptName, acceptId, status } = request.all();
      await List.query()
       .where('user_id', '=' , params.user_id)
       .where('id', '=' , params.id)
@@ -71,6 +71,11 @@ class AcceptRequestController {
         accept_by_id: acceptId,
         status: status
     });
+
+    var getTokenNotification = await Database.select('token_notification').where('id', '=', params.user_id).from('users');
+    
+    //send notification
+
     return auth.id;
   }
 

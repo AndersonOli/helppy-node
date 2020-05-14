@@ -19,6 +19,7 @@ class UserSchema extends Schema {
       table.string('reference', 254).notNullable()
       table.string('type_account',1).notNullable()
       table.integer('status_account').defaultTo(0)
+      table.string('token_notification')
       table.timestamps()
     })
   }

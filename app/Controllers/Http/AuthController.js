@@ -16,15 +16,14 @@ class AuthController {
       'house_number', 
       'reference', 
       'type_account',
+      'token_notification'
       ]);
-      const value = 0
     const user = await User.create(data);
-    
     return user;
   }
   
   async authenticate( { request, auth } ) { 
-    const { email, password } = request.all();
+    const { email, password, token_notification } = request.all();
     
     const data = await Database.select('id')
       .select('type_account')
@@ -32,9 +31,23 @@ class AuthController {
       .select('status_account')
       .from('users').
       whereIn("email", [email]);
+
+      console.log(data);
     
     
     const token_user = await auth.attempt(email, password);
+
+    console.log(token_user);
+
+    if(token_user.token.length > 0){
+      var updateToken = await Database
+      .table("users")
+      .where('email', '=', email)
+      .update('token_notification', token_notification)
+      .from("users");
+    }
+
+    
     
     const user_id = data[0].id;
     const token = token_user.token;
