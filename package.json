@@ -27,6 +27,7 @@
     "@adonisjs/mail": "^3.0.10",
     "basic-auth": "^2.0.1",
     "geolib": "^3.2.1",
+    "nodejs-nodemailer-outlook": "^1.2.3",
     "pg": "^8.0.2",
     "url-parse": "^1.4.7"
   },
