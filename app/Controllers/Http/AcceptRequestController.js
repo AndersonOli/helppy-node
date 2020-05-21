@@ -3,6 +3,7 @@
 const List = use('App/Models/List');
 const { isPointWithinRadius, getDistance } = require('geolib');
 const Database = use('Database');
+const axios = require('axios');
 
 class AcceptRequestController {
   async index ( { request } ) {
@@ -19,7 +20,7 @@ class AcceptRequestController {
       const latitude = coordinate[i]['latitude'];
       const longitude = coordinate[i]['longitude'];
       
-      if (isPointWithinRadius({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}, 5000)){ 
+      if (isPointWithinRadius({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}, 50000)){ 
         const list = await Database
           .select('*')
           .where('user_id', '=', coordinate[i]['id'])
@@ -53,7 +54,7 @@ class AcceptRequestController {
       const latitude = coordinate[i]['latitude'];
       const longitude = coordinate[i]['longitude'];
       
-      if (isPointWithinRadius({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}, 5000)){ 
+      if (isPointWithinRadius({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude}, 50000)){ 
         
         viewDistance.push({id: coordinate[i]['id'],distance: getDistance({latitude: lat,longitude: long}, {latitude: latitude, longitude:longitude})});
       }
@@ -72,9 +73,49 @@ class AcceptRequestController {
         status: status
     });
 
-    var getTokenNotification = await Database.select('token_notification').where('id', '=', params.user_id).from('users');
+    var getToken = await Database
+    .select('token_notification')
+    .where('id', '=', params.user_id)
+    .from('users');
+
+    var userToken = getToken[0]['token_notification'];
+
+    const fcmURL = 'https://fcm.googleapis.com/fcm/send'
+    const fcmKey = 'AAAA2pGGVAY:APA91bGyyYd-_HQphI7aOcQED1ZGpTZ8J_pRzKEjSd-ZUWFUk3rGSc4FH-D5wsm-_ToxAm6IbpASFzuBgTw8otUH_w75XRIx0XEK2kh9nxDBJhZ1pIEjt9lagmamX-e7GEcrd2sMkC2s'
     
-    //send notification
+    function buildRequest (notification) {
+      return {
+        url: fcmURL,
+        method: 'post',
+        headers: {
+          "Content-Type":"application/json",
+          "Authorization":`key=${fcmKey}`
+        },
+        data: notification
+      }
+    }
+
+    function buildNotification(title, text, userToken) {
+      return {
+        "notification": {
+          "title": title,
+          "text": text
+        },
+        "to": userToken,
+        "priority": "high"
+      }
+    }
+
+    function sendNotification(notification) {
+      const request = buildRequest(notification)
+      axios(request);
+    }
+
+    if(status == '1'){
+      sendNotification(buildNotification("Seu pedido foi aceito por " + acceptName, "Tente entrar em contato com o voluntário pelo contato, e siga as recomendações de segurança ao receber as compras.", userToken));
+    } else if(status == '2') {
+      sendNotification(buildNotification("Seu pedido foi finalizado por " + acceptName, "Se isto é um engano, entre em contato com o suporte!", userToken));
+    }
 
     return auth.id;
   }

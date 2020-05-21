@@ -46,66 +46,78 @@ class ForgotPasswordController {
       from: 'helppy19@hotmail.com',
       to: email,
       subject: 'Recuperação da senha do Helppy-19',
-      html: 
-`<body 
-  style="@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200&display=swap');
-    font-family: 'Nunito Sans', sans-serif;
-    display: flex;align-items: center; 
-    margin: 0;margin: auto;
-    width: 50%
-">
-         
-  <div 
-    style="background-color: #555555; 
-      opacity: 90%;
-      margin: auto;
-      width: 100%;
-      margin: 10px 10px 10px 10px;
-      border-radius: 8px; padding: 8px 8px 8px 8px;
-      -webkit-box-shadow: 5px 5px 8px 1px rgba(161,161,161,1);
-      box-shadow: 5px 5px 8px 1px rgba(161,161,161,1);
-  ">
-    
-    <h2 
-      style="color:#E5E5E5;
-        text-align: center;
-    "> 
-      Olá ${user.full_name},
-    </h2>
-          
-    <p 
-      style="color:#E5E5E5;
-        margin-top: 20px;
-        margin-bottom: 30px;
-        font-size: 14px;
-    ">
-      Parece que você solicitou uma recuperação da sua senha, use o código abaixo no seu app caso queira continuar: 
-    </p>
-          
-    <div 
-      style="background-color: #0049FF;
-        border-radius: 8px;
-        padding: 1% 2%;
-        margin: 0;
-        margin: auto;
-        width: 50%;
-        max-width: 15%;
-        margin-bottom: 30px;
-        text-align: center;
-    "> 
-    
-    <p style="color:#E5E5E5; 
-      font-weight: bold;
-      font-size: large;
-      letter-spacing: 3px
-    ">
-      ${token}
-    </p> 
-  </div>
-
-  <strong style="color:#E5E5E5; font-size: 14px;"> Caso não tenha sido você quem fez a solicitação, por favor descarte esse e-mail.</strong> <br>
-  <strong style="color:#E5E5E5; font-size: 14px"> Não responda esse e-mail !!! <strong> 
-</div>`,
+      html:
+      `<style>
+            @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200&display=swap');
+            .corpo {
+              font-family: 'Nunito Sans', sans-serif;
+              display: flex;
+              align-items: center;
+              margin: auto;
+              width: 50%;
+            }
+        
+            .content {
+              background-color: #555555; 
+              opacity: 90%;
+              margin: auto;
+              width: 100%;
+              margin: 10px 10px 10px 10px;
+              border-radius: 8px; padding: 8px 8px 8px 8px;
+              -webkit-box-shadow: 5px 5px 8px 1px rgba(161,161,161,1);
+              box-shadow: 5px 5px 8px 1px rgba(161,161,161,1);
+            }
+        
+            .content h2 {
+              color: #E5E5E5;
+              text-align: center;
+            } 
+        
+            .initial-warn {
+              color:#E5E5E5;
+              margin-top: 30px;
+              margin-bottom: 30px;
+              font-size: 14px;
+            }
+        
+            .box-token {
+              background-color: #0049FF;
+              border-radius: 8px;
+              padding: 1% 2%;
+              margin: auto;
+              width: 50%;
+              max-width: 20%;
+              margin-bottom: 30px;
+              text-align: center;
+            }
+        
+            .box-token p {
+              color:#E5E5E5; 
+              font-weight: bold;
+              font-size: large;
+              letter-spacing: 3px;
+            }
+        </style>
+        <body class"corpo">
+                
+          <div clas=".content">
+            
+            <h2> 
+              Olá ${user.full_name},
+            </h2>
+                  
+            <p class="initial-warn">
+              Parece que você solicitou uma recuperação da sua senha, use o código abaixo no seu app caso queira continuar: 
+            </p>
+                  
+            <div class="box-token"> 
+              <p>${token}</p> 
+            </div>
+        
+            <strong style="color:#E5E5E5; font-size: 14px"> Caso não tenha sido você quem fez a solicitação, por favor descarte esse e-mail.</strong> <br>
+            <strong style="color:#E5E5E5; font-size: 14px"> Não responda esse e-mail !!! <strong> 
+          </div>
+          </body>`,
       onError: (e) => console.log(e),
       onSuccess: (i) => console.log(i)
     })
