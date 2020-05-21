@@ -20,6 +20,7 @@ Route.post('/register', 'AuthController.register')
 Route.post('/authenticate', 'AuthController.authenticate')
 Route.post('/sendEmail', 'ForgotPasswordController.store')
 Route.post('/resetPassword', 'ForgotPasswordController.update')
+Route.get('/validateToken', 'ForgotPasswordController.getToken')
 
 Route.post('/accept', 'AcceptRequestController.index').middleware(['auth'])
 Route.post('/update/:user_id/:id', 'AcceptRequestController.update').middleware(['auth'])

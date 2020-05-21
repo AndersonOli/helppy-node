@@ -13,13 +13,22 @@ class ForgotPasswordController {
     
     const id = await Database.select('user_id').first().where('token','=', token).from('tokens');
     
-    const test = await User.query().where('id', '=',  id.user_id).update({
+    await User.query().where('id', '=',  id.user_id).update({
       password: await Hash.make(password)
     });
     
     await Database.where('user_id', '=', id.user_id).delete().from('tokens');
   }
-
+  
+  async getToken ( {request} ) {
+    const { token } = request.only(['token']); 
+    const validateToken = await Database.first().where('token','=', token).from('tokens');
+    if (validateToken != null) {
+      return true;
+    }
+    return false;
+  }
+  
   async store({ request }) {
     const { email } = request.all();
     const user = await User.findByOrFail('email', email);   
@@ -66,7 +75,7 @@ class ForgotPasswordController {
           
     <p 
       style="color:#E5E5E5;
-        margin-top: 30px;
+        margin-top: 20px;
         margin-bottom: 30px;
         font-size: 14px;
     ">
@@ -80,7 +89,7 @@ class ForgotPasswordController {
         margin: 0;
         margin: auto;
         width: 50%;
-        max-width: 20%;
+        max-width: 15%;
         margin-bottom: 30px;
         text-align: center;
     "> 
@@ -93,8 +102,8 @@ class ForgotPasswordController {
       ${token}
     </p> 
   </div>
-          
-  <strong style="color:#E5E5E5; font-size: 14px"> Caso não tenha sido você quem fez a solicitação, por favor descarte esse e-mail.</strong> <br>
+
+  <strong style="color:#E5E5E5; font-size: 14px;"> Caso não tenha sido você quem fez a solicitação, por favor descarte esse e-mail.</strong> <br>
   <strong style="color:#E5E5E5; font-size: 14px"> Não responda esse e-mail !!! <strong> 
 </div>`,
       onError: (e) => console.log(e),
