@@ -1,11 +1,11 @@
 'use strict'
 const User = use('App/Models/User');
 const Database = use('Database');
-const axios = require('axios');
-const querystring = require('querystring');
+const Unirest = require('unirest');
 
 class AuthController {
   async register( { request } ) {
+  
     const data = request.only([
       'full_name', 
       'email', 
@@ -18,11 +18,34 @@ class AuthController {
       'house_number', 
       'reference', 
       'type_account',
-      'token_notification'
+      'token_notification',
+      'profile_picture'
       ]);
-    const user = await User.create(data);
-    return user;
+      
+      const picture = data.profile_picture; 
+ 
+      function getLink(){
+        return new Promise((resolve,reject) => {
+        Unirest.post('https://api.imgur.com/3/image')
+        .headers({'Authorization': 'Client-ID 55ee05a412c4bae'})
+        .field('image', `${picture}`)
+        .end(function (response) {
+          if(response.error){return reject(error)}
+            return resolve(response.body); 
+          });
+        })
+      }
+      let linkPicture;
+      let e;
+      await getLink().then((body) => linkPicture = body.data.link);
+    
+      data.profile_picture = linkPicture
+      
+      const user = await User.create(data);
+      return user;
   }
+    
+
   
   async authenticate( { request, auth } ) { 
     const { email, password, token_notification } = request.all();
