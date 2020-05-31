@@ -36,7 +36,6 @@ class AuthController {
         })
       }
       let linkPicture;
-      let e;
       await getLink().then((body) => linkPicture = body.data.link);
     
       data.profile_picture = linkPicture
@@ -45,7 +44,51 @@ class AuthController {
       return user;
   }
     
-
+    
+  async updateProfile( {request, auth} ) {
+  
+    const { 
+    email, 
+    telephone,
+    cep, 
+    address, 
+    latitude,
+    longitude,
+    house_number, 
+    reference,
+    profile_picture } = request.all(); 
+    
+    
+    function getLink(){
+      return new Promise((resolve,reject) => {
+      Unirest.post('https://api.imgur.com/3/image')
+      .headers({'Authorization': 'Client-ID 55ee05a412c4bae'})
+      .field('image', `${profile_picture}`)
+      .end(function (response) {
+        if(response.error){return reject(error)}
+          return resolve(response.body); 
+        });
+      })
+    }
+    let linkPicture;
+    await getLink().then((body) => linkPicture = body.data.link);
+  
+    
+    await Database
+      .where('id','=',auth.user.id).update({
+      email: email,
+      telephone: telephone,
+      cep: cep,
+      address: address,
+      latitude: latitude,
+      longitude: longitude,
+      house_number: house_number,
+      reference: reference,
+      profile_picture: linkPicture
+      })
+      .from('users')
+  }
+  
   
   async authenticate( { request, auth } ) { 
     const { email, password, token_notification } = request.all();
@@ -55,15 +98,9 @@ class AuthController {
       .select('full_name')
       .select('status_account')
       .from('users').
-      whereIn("email", [email]);
-
-      console.log(data);
-    
-    
+      whereIn("email", [email]);  
     const token_user = await auth.attempt(email, password);
-
-    console.log(token_user);
-
+    
     if(token_user.token.length > 0){
       var updateToken = await Database
       .table("users")

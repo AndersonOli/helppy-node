@@ -22,6 +22,7 @@ Route.post('/sendEmail', 'ForgotPasswordController.store')
 Route.post('/resetPassword', 'ForgotPasswordController.update')
 Route.post('/validateToken', 'ForgotPasswordController.getToken')
 
+Route.post('/updateProfile', 'AuthController.updateProfile').middleware(['auth'])
 Route.post('/accept', 'AcceptRequestController.index').middleware(['auth'])
 Route.post('/update/:user_id/:id', 'AcceptRequestController.update').middleware(['auth'])
 Route.post('/distance', 'AcceptRequestController.getDistance').middleware(['auth'])
