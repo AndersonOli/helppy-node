@@ -43,6 +43,11 @@ class AuthController {
       const user = await User.create(data);
       return user;
   }
+  
+  async index( { auth }){
+    const user = await User.query().where('id','=',auth.user.id).fetch()
+    return user
+  }
     
     
   async updateProfile( {request, auth} ) {
