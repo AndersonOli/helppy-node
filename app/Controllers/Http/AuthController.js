@@ -63,7 +63,8 @@ class AuthController {
     reference,
     profile_picture } = request.all(); 
 
-    let linkPicture = await this.getLink(data.profile_picture);
+    let linkPicture = await this.getLink(data.profile_picture);      
+    data.profile_picture = linkPicture;
     
     await Database
       .where('id','=',auth.user.id).update({
@@ -75,7 +76,7 @@ class AuthController {
       longitude: longitude,
       house_number: house_number,
       reference: reference,
-      profile_picture: linkPicture
+      profile_picture: data.profile_picture
       })
       .from('users')
   }
