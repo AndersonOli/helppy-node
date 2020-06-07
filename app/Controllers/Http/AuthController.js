@@ -38,10 +38,10 @@ class AuthController {
       let linkPicture;
       await getLink().then((body) => linkPicture = body.data.link);
     
-      data.profile_picture = linkPicture
+      // data.profile_picture = linkPicture
       
-      const user = await User.create(data);
-      return user;
+      // const user = await User.create(data);
+      return linkPicture;
   }
   
   async index( { auth }){
