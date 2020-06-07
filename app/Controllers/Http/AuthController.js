@@ -6,7 +6,7 @@ const axios = require('axios');
 
 class AuthController {
   async register( { request } ) {
-    let user;
+  
     const data = request.only([
       'full_name', 
       'email', 
@@ -22,9 +22,9 @@ class AuthController {
       'token_notification',
       'profile_picture'
       ]);
-
-      await this.getLink(data.profile_picture).then((link) => user = await User.create(data));
-      
+      let linkPicture = await this.getLink(data.profile_picture);      
+      data.profile_picture = linkPicture;
+      const user = await User.create(data);
       return user;
   }
 
