@@ -64,7 +64,7 @@ class AuthController {
     reference,
     profile_picture } = request.all(); 
 
-    if(!profile_picture.include("http", 0)){
+    if(!(profile_picture.indexOf("http") == -1)){
       let linkPicture = await this.getLink(profile_picture);      
       profile_picture = linkPicture;  
     }
