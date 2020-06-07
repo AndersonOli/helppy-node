@@ -53,7 +53,7 @@ class AuthController {
     
   async updateProfile( {request, auth} ) {
   
-    const { 
+    let { 
     email, 
     telephone,
     cep, 
