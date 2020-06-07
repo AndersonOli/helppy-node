@@ -2,6 +2,7 @@
 const User = use('App/Models/User');
 const Database = use('Database');
 const Unirest = require('unirest');
+const axios = require('axios');
 
 class AuthController {
   async register( { request } ) {
@@ -21,27 +22,27 @@ class AuthController {
       'token_notification',
       'profile_picture'
       ]);
+
+      data.profile_picture = await this.getLink(data.profile_picture);
       
-      const picture = data.profile_picture; 
- 
-      function getLink(){
-        return new Promise((resolve,reject) => {
-        Unirest.post('https://api.imgur.com/3/image')
-        .headers({'Authorization': 'Client-ID 55ee05a412c4bae'})
-        .field('image', `${picture}`)
-        .end(function (response) {
-          if(response.error){return reject(response.error)}
-            return resolve(response.body); 
-          });
-        })
-      }
-      let linkPicture;
-      await getLink().then((body) => linkPicture = body.data.link);
-    
-      // data.profile_picture = linkPicture
-      
-      // const user = await User.create(data);
-      return linkPicture;
+      const user = await User.create(data);
+      return user;
+  }
+
+  async getLink(picture) {
+    return axios({
+      url: "https://api.imgur.com/3/image",
+      method: "post",
+      headers: {
+        "Content-Type":"application/json",
+        "Authorization":"Client-ID 55ee05a412c4bae"
+      },
+      data: picture
+      }).then(function(response) {
+        return response.data.data.link;
+      }).catch(function(error) {
+        return error;
+    });
   }
   
   async index( { auth }){
@@ -62,22 +63,8 @@ class AuthController {
     house_number, 
     reference,
     profile_picture } = request.all(); 
-    
-    
-    function getLink(){
-      return new Promise((resolve,reject) => {
-      Unirest.post('https://api.imgur.com/3/image')
-      .headers({'Authorization': 'Client-ID 55ee05a412c4bae'})
-      .field('image', `${profile_picture}`)
-      .end(function (response) {
-        if(response.error){return reject(response.error)}
-          return resolve(response.body); 
-        });
-      })
-    }
-    let linkPicture;
-    await getLink().then((body) => linkPicture = body.data.link);
-  
+
+    let linkPicture = await this.getLink(data.profile_picture);
     
     await Database
       .where('id','=',auth.user.id).update({
