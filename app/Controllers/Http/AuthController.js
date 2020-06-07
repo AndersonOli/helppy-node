@@ -30,7 +30,7 @@ class AuthController {
         .headers({'Authorization': 'Client-ID 55ee05a412c4bae'})
         .field('image', `${picture}`)
         .end(function (response) {
-          if(response.error){return reject(error)}
+          if(response.error){return reject(response.error)}
             return resolve(response.body); 
           });
         })
