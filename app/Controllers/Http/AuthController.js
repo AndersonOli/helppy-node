@@ -23,7 +23,7 @@ class AuthController {
       'profile_picture'
       ]);
 
-      data.profile_picture = await this.getLink(data.profile_picture);
+      // data.profile_picture = await this.getLink(data.profile_picture);
       
       const user = await User.create(data);
       return user;
