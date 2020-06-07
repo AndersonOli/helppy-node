@@ -6,7 +6,7 @@ const axios = require('axios');
 
 class AuthController {
   async register( { request } ) {
-  
+    // first async
     const data = request.only([
       'full_name', 
       'email', 
@@ -22,9 +22,10 @@ class AuthController {
       'token_notification',
       'profile_picture'
       ]);
-      let linkPicture = await this.getLink(data.profile_picture);      
+      let linkPicture = await this.getLink(data.profile_picture);  // another async 2°   
       data.profile_picture = linkPicture;
-      const user = await User.create(data);
+      // antes o 3° não espera o 2° acabar e o primeiro achava que tava tudo ok e retornava error
+      const user = await User.create(data); // another async
       return user;
   }
 
@@ -63,8 +64,10 @@ class AuthController {
     reference,
     profile_picture } = request.all(); 
 
-    let linkPicture = await this.getLink(data.profile_picture);      
-    data.profile_picture = linkPicture;
+    if(!profile_picture.include("http", 0)){
+      let linkPicture = await this.getLink(profile_picture);      
+      profile_picture = linkPicture;  
+    }
     
     await Database
       .where('id','=',auth.user.id).update({
@@ -76,7 +79,7 @@ class AuthController {
       longitude: longitude,
       house_number: house_number,
       reference: reference,
-      profile_picture: data.profile_picture
+      profile_picture: profile_picture
       })
       .from('users')
   }
