@@ -65,7 +65,6 @@ class AuthController {
     if (data.newImage == true) {
       let linkPicture = await this.getLink(data.profile_picture);
       data.profile_picture = linkPicture;
-      return data.profile_picture;
     }
 
     await Database
