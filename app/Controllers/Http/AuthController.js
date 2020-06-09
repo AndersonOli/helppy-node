@@ -68,21 +68,19 @@ class AuthController {
       return data.profile_picture;
     }
 
-    return 'newImg';
-
-    // await Database
-    //   .where('id', '=', auth.user.id).update({
-    //     email: email,
-    //     telephone: telephone,
-    //     cep: cep,
-    //     address: address,
-    //     latitude: latitude,
-    //     longitude: longitude,
-    //     house_number: house_number,
-    //     reference: reference,
-    //     profile_picture: profile_picture
-    //   })
-    //   .from('users')
+    await Database
+      .where('id', '=', auth.user.id).update({
+        email: data.email,
+        telephone: data.telephone,
+        cep: data.cep,
+        address: data.address,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        house_number: data.house_number,
+        reference: data.reference,
+        profile_picture: data.profile_picture
+      })
+      .from('users')
   }
 
 
