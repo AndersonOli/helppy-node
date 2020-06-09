@@ -62,8 +62,6 @@ class AuthController {
       'reference',
       'profile_picture']);
 
-    console.log(isNew);
-
     if (data.profile_picture.match("/http/")) {
       let linkPicture = await this.getLink(profile_picture);
       profile_picture = linkPicture;
