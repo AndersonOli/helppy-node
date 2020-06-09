@@ -51,7 +51,8 @@ class AuthController {
 
   async updateProfile({ request, auth }) {
 
-    const data = request.only([email,
+    const data = request.only([
+      'email',
       'telephone',
       'cep',
       'address',
@@ -61,7 +62,7 @@ class AuthController {
       'reference',
       'profile_picture']);
 
-      console.log(isNew);
+    console.log(isNew);
 
     if (data.profile_picture.match("/http/")) {
       let linkPicture = await this.getLink(profile_picture);
