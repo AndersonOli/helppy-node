@@ -80,6 +80,8 @@ class AuthController {
         profile_picture: data.profile_picture
       })
       .from('users')
+
+      return data;
   }
 
 
