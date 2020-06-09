@@ -62,9 +62,10 @@ class AuthController {
     longitude,
     house_number, 
     reference,
-    profile_picture } = request.all(); 
+    profile_picture,
+    newProfileImage } = request.all(); 
 
-    if(!(profile_picture.toString().match("/http/") == -1)){
+    if(newProfileImage == true){
       let linkPicture = await this.getLink(profile_picture);      
       profile_picture = linkPicture;  
     }
