@@ -60,11 +60,12 @@ class AuthController {
       'longitude',
       'house_number',
       'reference',
-      'profile_picture']);
+      'profile_picture', 'newImage']);
 
-    if (data.profile_picture.match("/http/")) {
-      let linkPicture = await this.getLink(profile_picture);
-      profile_picture = linkPicture;
+    if (data.newImage == true) {
+      let linkPicture = await this.getLink(data.profile_picture);
+      data.profile_picture = linkPicture;
+      return data.profile_picture;
     }
 
     return 'newImg';
