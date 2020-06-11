@@ -35,7 +35,7 @@ class AuthController {
         "Content-Type": "application/json",
         "Authorization": "Client-ID 55ee05a412c4bae"
       },
-      data: picture
+      data: {image: picture}
     }).then(function (response) {
       return response.data.data.link;
     }).catch(function (error) {
