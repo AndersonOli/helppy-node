@@ -27,7 +27,8 @@ Route.post('/updateProfile', 'AuthController.updateProfile').middleware(['auth']
 Route.post('/accept', 'AcceptRequestController.index').middleware(['auth'])
 Route.post('/update/:user_id/:id', 'AcceptRequestController.update').middleware(['auth'])
 Route.post('/distance', 'AcceptRequestController.getDistance').middleware(['auth'])
-Route.post('/report/:id', 'ReportController.update').middleware(['auth'])
+Route.post('/report/:id', 'ReportController.report').middleware(['auth'])
+Route.post('/analyze', 'ReportController.analyze').middleware(['auth'])
 
 Route.group( () => {
   Route.resource('list', 'ListController').apiOnly();
