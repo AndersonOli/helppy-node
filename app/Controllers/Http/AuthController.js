@@ -21,8 +21,6 @@ class AuthController {
       'token_notification',
       'profile_picture'
     ]);
-    let linkPicture = await this.getLink(data.profile_picture);
-    data.profile_picture = linkPicture;
     const user = await User.create(data);
     return user;
   }
