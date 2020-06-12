@@ -19,7 +19,7 @@ class ReportController {
     
     const user_id = auth.user.id
     
-    const report  = await Report.create({
+    await Report.create({
     title: title, 
     comment: comment,
     reported_id: reported_id,
@@ -27,9 +27,9 @@ class ReportController {
     user_id: user_id
     });
     
-    const list = await Database.where('id', '=', id_list)
+    await Database.where('id', '=', parseInt(id_list, 10))
     .update({
-    status: '2'
+    status: '0'
     }).from('lists');
   }
 }

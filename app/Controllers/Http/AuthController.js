@@ -1,7 +1,6 @@
 'use strict'
 const User = use('App/Models/User');
 const Database = use('Database');
-const Unirest = require('unirest');
 const axios = require('axios');
 
 class AuthController {
