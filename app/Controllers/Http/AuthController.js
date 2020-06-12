@@ -58,11 +58,24 @@ class AuthController {
       'longitude',
       'house_number',
       'reference',
-      'profile_picture', 'newImage']);
+      'profile_picture']);
 
-    if (data.newImage == true) {
-      let linkPicture = await this.getLink(data.profile_picture);
-      data.profile_picture = linkPicture;
+    if (data.profile_picture != null) {
+      await Database
+      .where('id', '=', auth.user.id).update({
+        email: data.email,
+        telephone: data.telephone,
+        cep: data.cep,
+        address: data.address,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        house_number: data.house_number,
+        reference: data.reference,
+        profile_picture: data.profile_picture
+      })
+      .from('users')
+
+      return data;
     }
 
     await Database
@@ -74,8 +87,7 @@ class AuthController {
         latitude: data.latitude,
         longitude: data.longitude,
         house_number: data.house_number,
-        reference: data.reference,
-        profile_picture: data.profile_picture
+        reference: data.reference
       })
       .from('users')
 
