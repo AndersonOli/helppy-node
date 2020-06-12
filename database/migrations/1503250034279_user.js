@@ -20,7 +20,7 @@ class UserSchema extends Schema {
       table.string('type_account',1).notNullable()
       table.integer('status_account').defaultTo(0)
       table.string('token_notification')
-      table.string('profile_picture',100).notNullable()
+      table.string('profile_picture', 500).notNullable()
       table.timestamps()
     })
   }
