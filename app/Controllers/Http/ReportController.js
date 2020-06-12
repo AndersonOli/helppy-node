@@ -1,7 +1,7 @@
 'use strict'
 
-const Database = use('Database');
-const Report = use('App/Models/Report')
+const Database = use('Database')
+const Report = use('App/Models/Report');
 
 class ReportController {
   async report( { params } ) { 
@@ -15,13 +15,22 @@ class ReportController {
   
 
   async analyze ({ request, auth }) {
-    const data = request.only(['title','comment','reported_id','status_report']);
+    const { title, comment, reported_id, status_report, id_list } = request.all();
     
-    data.user_id = auth.user.id
+    const user_id = auth.user.id
     
-    const report  = await Report.create(data);
+    const report  = await Report.create({
+    title: title, 
+    comment: comment,
+    reported_id: reported_id,
+    status_report: status_report,
+    user_id: user_id
+    });
     
-    return report;
+    const list = await Database.where('id', '=', id_list)
+    .update({
+    status: '2'
+    }).from('lists');
   }
 }
 
